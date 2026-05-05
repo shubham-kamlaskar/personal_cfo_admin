@@ -23,6 +23,7 @@ class CADBProvider():
     def add_new_ca_in_database(self, request, client_id, employee_id):
         form = request.form
         files = request.files
+        employee_id = f"EMP-2600-{generate_client_id(self.ca_count)}"
         update_login_data = LoginObject(
             client_id=client_id,
             employee_id = employee_id,

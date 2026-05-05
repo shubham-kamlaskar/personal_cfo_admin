@@ -93,4 +93,8 @@ class ClientDBProvider():
             self.mongodb_client.insert_one_item_in_collection("user_info", "LoginInfo",
                                                         update_login_data.model_dump())
             
+    def delete_client_from_database(self, target_id):
+        filter_id = {'client_id': ta}
+        self.mongodb_client.delete_one_item_from_collection()
+            
         

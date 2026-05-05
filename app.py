@@ -12,7 +12,7 @@ from src.routes.support_management_route import admin_support_bp
 # from src.routes.product_management_route
 # from src.routes.sales_management_route
 from src.routes.authentication_route import authentication_bp
-
+from src.routes.profile_route import user_profile_bp
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
@@ -26,7 +26,7 @@ app.register_blueprint(admin_employee_bp)
 app.register_blueprint(admin_finance_bp)
 app.register_blueprint(admin_support_bp)
 app.register_blueprint(authentication_bp)
-# app.register_blueprint()
+app.register_blueprint(user_profile_bp)
 # app.register_blueprint()
 # app.register_blueprint()
 

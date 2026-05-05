@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 
 from src.database.provider.client_db_provider import ClientDBProvider
 
@@ -27,7 +27,16 @@ def confirm_add_client(client_id: str, employee_id: str):
         
 
 @admin_client_bp.route("/<client_id>/<employee_id>/admin/client/remove", methods=["GET"])
-def remove_client(client_id: str, employee_id: str):
+def remove_client(client_id: str, employee_id: str, target_id: str):
+    confirm = request.args.get('confirm')
+    if confirm == 'yes':
+        # 1. RUN YOUR ACTUAL REMOVAL LOGIC HERE
+        if target_id:
+            
+        return jsonify({
+                                        "status": "success",
+                                        "redirect": url_for('admin_client_bp.list_client', client_id= client_id, employee_id=employee_id)
+                                    })
     return render_template("admin/client/admin_add_client.html", client_id=client_id, employee_id=employee_id)
 
 @admin_client_bp.route("/<client_id>/<employee_id>/admin/client/modify", methods=["GET"])

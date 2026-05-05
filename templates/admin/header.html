@@ -25,7 +25,7 @@
       <!-- Clients dropdown -->
        <li class="nav-item">
         <a class="nav-link"
-           href="{{ url_for('admin_dashboard_bp.list_client', client_id=client_id, employee_id=employee_id) }}">
+           href="{{ url_for('admin_client_bp.list_client', client_id=client_id, employee_id=employee_id) }}">
            Clients
         </a>
       </li>
@@ -34,7 +34,7 @@
       <!-- CA dropdown -->
        <li class="nav-item">
         <a class="nav-link"
-           href="{{ url_for('admin_dashboard_bp.ca_list', client_id=client_id, employee_id=employee_id) }}">
+           href="{{ url_for('admin_ca_bp.ca_list', client_id=client_id, employee_id=employee_id) }}">
            CA
         </a>
       </li>
@@ -48,7 +48,7 @@
         <ul class="dropdown-menu">
           <li>
             <a class="dropdown-item"
-               href="{{ url_for('admin_dashboard_bp.billing', client_id=client_id, employee_id=employee_id) }}">
+               href="{{ url_for('admin_finance_bp.billing', client_id=client_id, employee_id=employee_id) }}">
                Subscription
             </a>
           </li>
@@ -59,7 +59,7 @@
       <!-- Analytics -->
       <li class="nav-item">
         <a class="nav-link"
-           href="{{ url_for('admin_dashboard_bp.analytics', client_id=client_id, employee_id=employee_id) }}">
+           href="{{ url_for('admin_analytics_bp.analytics', client_id=client_id, employee_id=employee_id) }}">
            Analytics
         </a>
       </li>
@@ -67,7 +67,7 @@
        <!-- Users -->
       <li class="nav-item">
         <a class="nav-link"
-           href="{{ url_for('admin_dashboard_bp.employee_list', client_id=client_id, employee_id=employee_id) }}">
+           href="{{ url_for('admin_employee_bp.employee_list', client_id=client_id, employee_id=employee_id) }}">
            Employees
         </a>
       </li>
@@ -75,7 +75,7 @@
        <!-- Compliance -->
       <li class="nav-item">
         <a class="nav-link"
-           href="{{ url_for('admin_dashboard_bp.compliance', client_id=client_id, employee_id=employee_id) }}">
+           href="{{ url_for('admin_compliance_bp.compliance', client_id=client_id, employee_id=employee_id) }}">
            Compliance
         </a>
       </li>
@@ -83,7 +83,7 @@
       <!-- Support -->
       <li class="nav-item">
         <a class="nav-link"
-           href="{{ url_for('admin_dashboard_bp.support', client_id=client_id, employee_id=employee_id) }}">
+           href="{{ url_for('admin_support_bp.support', client_id=client_id, employee_id=employee_id) }}">
            Support
         </a>
       </li>
@@ -132,7 +132,7 @@
 
         <li><hr class="dropdown-divider"></li>
 
-        <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+        <li><a class="dropdown-item text-danger" href="{{ url_for('authentication_bp.signout') }}">Sign Out</a></li>
 
       </ul>
 

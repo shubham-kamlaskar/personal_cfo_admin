@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <title>User Management | TaxCopilot</title>
 <style>
@@ -495,7 +496,7 @@
     </div>
 
     <div class="col-md-6 text-end">
-        <a href="{{ url_for('admin_dashboard_bp.add_ca', admin_id=admin_id) }}" 
+        <a href="{{ url_for('admin_ca_bp.add_ca', employee_id=employee_id, client_id=client_id) }}" 
            class="btn btn-primary">
            + Add New CA
         </a>
@@ -510,14 +511,14 @@
 
   <thead class="table-light">
     <tr>
-      <th>Sr. No.</th>
+      <th>#</th>
       <th>CA ID</th>
       <th>Full Name</th>
       <th>Phone</th>
       <th>Payment Terms</th>
       <th>Max Clients</th>
       <th>Status</th>
-      <th>Modify</th>
+      <th>Action</th>
     </tr>
   </thead>
 
@@ -535,10 +536,13 @@
       </td>
       <td>{{ca.status}}</td>
       <td>
-        <a href="{{ url_for('admin_dashboard_bp.add_ca', admin_id=admin_id) }}"
-           class="btn btn-sm btn-outline-primary">
-           Edit
-        </a>
+          <a href="{{ url_for('admin_client_bp.remove_client', client_id=client_id, employee_id=employee_id) }}" class="text-danger">
+    <span class="material-symbols-outlined">delete</span>
+  </a>
+
+  <a href="{{ url_for('admin_client_bp.remove_client', client_id=client_id, employee_id=employee_id) }}" class="text-primary ms-2">
+    <span class="material-symbols-outlined">edit</span>
+  </a>
       </td>
     </tr>
     {% endfor %}
