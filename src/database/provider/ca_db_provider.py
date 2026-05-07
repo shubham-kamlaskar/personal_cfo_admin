@@ -23,7 +23,7 @@ class CADBProvider():
     def add_new_ca_in_database(self, request, client_id, employee_id):
         form = request.form
         files = request.files
-        employee_id = f"EMP-2600{generate_client_id(self.ca_count)}"
+        employee_id = f"CA-2600{generate_client_id(self.ca_count)}"
         update_login_data = LoginObject(
             client_id=client_id,
             employee_id = employee_id,
@@ -112,7 +112,7 @@ class CADBProvider():
                     createdAt= self.current_dt,
                     updatedAt= self.current_dt,
                 ),
-                    actives_status= ActiveStatus(
+                    active_status= ActiveStatus(
                     is_approved= False,
                     is_active = True,
                     last_active_datetime= self.current_dt
@@ -125,3 +125,95 @@ class CADBProvider():
     def fetch_ca_list_from_database(self):
         ca_list = self.mongodb_client.fetch_all_records_from_collection(self.db_name, self.ca_collection)
         return ca_list
+    
+    def update_client_in_database(self, target_id, request, employee_id):
+        data = request.get_json()
+        current_dt = get_current_dt_in_milliseconds_precision()
+        if data and target_id:
+            update_data = {
+                "personal_info": {
+                    "title": data.get("title", None),
+                    "full_name": data.get("full_name", None),
+                    "alternate_email": data.get("alternate_email", None),
+                    "phone": data.get("phone", None),
+                    "whatsapp": data.get("whatsapp", None),
+                    "dob": data.get("dob", None),
+                    "gender": data.get("gender", None),
+                    "address": data.get("address", None),
+                    "city": data.get("city", None),
+                    "state": data.get("state", None),
+                    "pincode": data.get("pincode", None),
+                    "pan": data.get("pan", None),
+                    "aadhaar": data.get("aadhaar", None),
+                    "updatedAt": self.current_dt,
+                },
+                "professional_info": {
+                    "icai_number":data.get("icai_number", None),
+                    "membership_type":data.get("membership_type", None),
+                    "qualification_date":data.get("qualification_date", None),
+                    "experience_years":data.get("experience_years", None),
+                    "cop_number":data.get("cop_number", None),
+                    "firm_name":data.get("firm_name", None),
+                    "firm_registration":data.get("firm_registration", None),
+                    "office_address":data.get("office_address", None),
+                    "office_city":data.get("office_city", None),
+                    "office_state":data.get("office_state", None),
+                    "office_pincode":data.get("office_pincode", None),
+                    "bio":data.get("bio", None),
+                    "updatedAt":self.current_dt,
+                },
+                "specialization": {
+                    "primary_specialization":data.get("primary_specialization", None),
+                    "client_size":data.get("client_size", None),
+                    "languages":data.get("languages", None),
+                    "additional_services":data.getlist("additional_services"),
+                    "tax_services":data.getlist("tax_services"),
+                    "industry_expertise":data.getlist("industry_expertise"),
+                    "updatedAt":self.current_dt,
+                },
+                "documents": {
+                    "icai_cert":request.filesget("icai_cert").filename if request.filesget("icai_cert") else None,
+                    "cop_cert":request.filesget("cop_cert").filename if request.filesget("cop_cert") else None,
+                    "pan_doc":request.filesget("pan_doc").filename if request.filesget("pan_doc") else None,
+                    "aadhaar_doc":request.filesget("aadhaar_doc").filename if request.filesget("aadhaar_doc") else None,
+                    "resume":request.filesget("resume").filename if request.filesget("resume") else None,
+                    "photo":request.filesget("photo").filename if request.filesget("photo") else None,
+                    "certs":request.filesget("certs").filename if request.filesget("certs") else None,
+                    "updatedAt":self.current_dt,
+                },
+                "service_agreement": {
+                    "engagement_type":data.get("engagement_type", None) ,
+                    "rate_itr_individual":data.get("rate_itr_individual", None) ,
+                    "rate_itr_business":data.get("rate_itr_business", None) ,
+                    "rate_consultation":data.get("rate_consultation", None) ,
+                    "rate_gsts":data.get("rate_gst", None) ,
+                    "revenue_share":data.get("revenue_share", None) ,
+                    "payment_terms":data.get("payment_terms", None) ,
+                    "max_clients":data.get("max_clients", None) ,
+                    "response_time":data.get("response_time", None) ,
+                    "work_hours_from":data.get("work_hours_from", None) ,
+                    "work_hours_to":data.get("work_hours_to", None) ,
+                    "working_day":data.getlist("working_day") ,
+                    "bank_account_name":data.get("bank_account_name", None) ,
+                    "bank_name":data.get("bank_name", None) ,
+                    "bank_ifsc":data.get("bank_ifsc", None) ,
+                    "updatedAt":self.current_dt,
+                }                     
+            }
+            
+            filter_id = {'client_id': target_id}
+            self.mongodb_client.update_one_item_in_collection(self.db_name, self.ca_collection  , filter_id, update_data)
+        print("Item deleted successfully")
+        
+    def delete_ca_from_database(self, target_id):
+        filter_id = {'ca_id': target_id}
+        self.mongodb_client.delete_one_item_from_collection(database_name=self.db_name,
+                                                            collection_name=self.ca_collection,
+                                                            filter_items=filter_id)
+        
+    def fetch_single_client_from_database(self, employee_id):
+        filter_items = {'employee_id': employee_id}
+        client_data = self.mongodb_client.find_one_item_from_collection(self.db_name, self.ca_collection, filter_items)
+        return client_data
+            
+        

@@ -98,7 +98,7 @@ class CAInfo(BaseModel):
     specialization: Optional[CASpecialization] = None
     documents: Optional[CADocuments] = None
     service_agreement: Optional[CAServiceAgreement] = None
-    actives_status: Optional[ActiveStatus] = None
+    active_status: Optional[ActiveStatus] = None
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
             
