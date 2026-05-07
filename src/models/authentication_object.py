@@ -132,7 +132,6 @@ class UserInfo(BaseModel):
     client_id: str
     employee_id: str
     rbac_role: Optional[list[str]] = None
-
-
+        
 class ForgotPasswordObject(BaseModel):
     email: Optional[str] = None

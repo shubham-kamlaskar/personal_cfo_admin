@@ -13,7 +13,8 @@ load_dotenv()
 mongodb_client = MongoDBClient()
 password_helper = PasswordHelper()
 user_info_collection = str(os.getenv('USER_INFO_COLLECTION'))
-db_name = str(os.getenv('DB_NAME')) 
+db_name = str(os.getenv('DB_NAME'))
+login_info = str(os.getenv('LOGIN_COLLECTION'))
 email_id_field = VariableConstant.EMAIL_ID_FIELD_DB
 employee_id_field = VariableConstant.EMPLOYEE_ID_FIELD_DB
 logger = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ def loginUser():
                 password = data.get("password")
 
             filter_items = {email_id_field: email}
-            fetch_user_info = mongodb_client.find_one_item_from_collection("user_info", "LoginInfo", filter_items)
+            fetch_user_info = mongodb_client.find_one_item_from_collection(db_name, login_info, filter_items)
             if fetch_user_info:
                 if email.lower() == fetch_user_info.get('email'):
                     fetch_password = fetch_user_info.get('password')

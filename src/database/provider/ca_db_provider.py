@@ -13,7 +13,7 @@ class CADBProvider():
     def __init__(self):
         self.mongodb_client = MongoDBClient()
         self.password_helper = PasswordHelper()
-        self.db_name = str(os.getenv("CLIENT_DB_NAME"))
+        self.db_name = str(os.getenv("DB_NAME"))
         self.ca_collection = str(os.getenv("CA_COLLECTION"))
         self.ca_count = self.mongodb_client.count_all_records_from_collection(self.db_name, self.ca_collection)
         self.current_dt = get_current_dt_in_milliseconds_precision()
@@ -23,7 +23,7 @@ class CADBProvider():
     def add_new_ca_in_database(self, request, client_id, employee_id):
         form = request.form
         files = request.files
-        employee_id = f"EMP-2600-{generate_client_id(self.ca_count)}"
+        employee_id = f"EMP-2600{generate_client_id(self.ca_count)}"
         update_login_data = LoginObject(
             client_id=client_id,
             employee_id = employee_id,

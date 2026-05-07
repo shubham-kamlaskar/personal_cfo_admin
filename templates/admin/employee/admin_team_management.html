@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<title>Team Management | TaxCopilot</title>
+<style>
+  :root {
+    --blue-50: #E6F1FB;
+    --blue-100: #B5D4F4;
+    --blue-400: #378ADD;
+    --blue-600: #185FA5;
+    --blue-800: #0C447C;
+    --teal-50: #E1F5EE;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --amber-50: #FAEEDA;
+    --amber-400: #BA7517;
+    --coral-50: #FAECE7;
+    --coral-400: #D85A30;
+    --purple-50: #F3E8FF;
+    --purple-400: #9333EA;
+    --gray-50: #F1EFE8;
+    --gray-100: #D3D1C7;
+    --gray-400: #888780;
+    --gray-800: #444441;
+    --gray-900: #2C2C2A;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --radius: 14px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 24px rgba(55,138,221,0.12);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f1f5f9;
+    color: var(--gray-900);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, .heading {
+    font-family: 'Sora', sans-serif;
+  }
+
+  /* ── Navigation ── */
+  .top-nav {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--blue-800);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .logo span { color: var(--teal-400); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .admin-badge {
+    background: var(--purple-50);
+    color: var(--purple-400);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    background: var(--gray-50);
+    cursor: pointer;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple-400), var(--blue-600));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .page-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.875rem;
+    color: var(--gray-400);
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--gray-400);
+    margin-bottom: 1rem;
+  }
+
+  .breadcrumb-nav a {
+    color: var(--blue-600);
+    text-decoration: none;
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 0.65rem 1rem 0.65rem 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-box input:focus {
+    outline: none;
+    border-color: var(--blue-600);
+    box-shadow: 0 0 0 3px rgba(55,138,221,0.12);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-400);
+  }
+
+  .filter-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-select {
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--blue-600);
+    color: white;
+    padding: 0.65rem 1.25rem;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    background: var(--blue-800);
+    transform: translateY(-1px);
+  }
+
+  /* ── Team Table ── */
+  .team-grid {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .team-table {
+    width: 100%;
+    font-size: 0.875rem;
+  }
+
+  .team-table thead {
+    background: var(--gray-50);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .team-table th {
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray-400);
+    text-align: left;
+  }
+
+  .team-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .team-table tbody tr:hover {
+    background: var(--blue-50);
+  }
+
+  .member-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-400), var(--teal-400));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  .member-name {
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+
+  .member-email {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+
+  .role-badge {
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .role-owner { background: var(--purple-50); color: var(--purple-400); }
+  .role-admin { background: var(--blue-50); color: var(--blue-600); }
+  .role-manager { background: var(--teal-50); color: var(--teal-600); }
+  .role-member { background: var(--gray-100); color: var(--gray-800); }
+
+  .status-badge {
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .status-active { background: var(--teal-50); color: var(--teal-600); }
+  .status-inactive { background: var(--gray-100); color: var(--gray-400); }
+  .status-pending { background: var(--amber-50); color: var(--amber-400); }
+
+  .permission-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .permission-tag {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: var(--gray-100);
+    color: var(--gray-800);
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-icon:hover {
+    background: var(--blue-50);
+    color: var(--blue-600);
+  }
+
+  .btn-icon.danger:hover {
+    background: var(--coral-50);
+    color: var(--coral-400);
+  }
+
+  /* ── Modal Styles ── */
+  .modal-content {
+    border-radius: var(--radius);
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 1.75rem;
+  }
+
+  .modal-title {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .modal-body {
+    padding: 1.75rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--gray-800);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .form-control {
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--blue-600);
+    box-shadow: 0 0 0 3px rgba(55,138,221,0.12);
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-help {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    margin-top: 0.35rem;
+  }
+
+  /* ── Permission Checkboxes ── */
+  .permissions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .permission-group {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+
+  .permission-group-title {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
+  }
+
+  .permission-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .permission-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  /* ── Tabs ── */
+  .tab-nav {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-link {
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+  }
+
+  .tab-link:hover,
+  .tab-link.active {
+    color: var(--blue-600);
+    border-bottom-color: var(--blue-600);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  /* ── Onboarding Section ── */
+  .onboarding-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .onboarding-title {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+  }
+
+  .info-row {
+    display: flex;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-row:last-child {
+    border-bottom: none;
+  }
+
+  .info-label {
+    flex: 0 0 180px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--gray-800);
+  }
+
+  .info-value {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--gray-900);
+  }
+
+  .document-link {
+    color: var(--blue-600);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .document-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-box {
+      max-width: 100%;
+    }
+
+    .team-table {
+      font-size: 0.8rem;
+    }
+
+    .team-table th,
+    .team-table td {
+      padding: 0.75rem 0.5rem;
+    }
+
+    .permissions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body>
+<!-- ── Top Navigation ── -->
+<nav class="top-nav">
+  <a href="{{ url_for('admin_bp.dashboard') }}" class="logo">
+    <div class="logo-icon">TC</div>
+    <div>Tax<span>Copilot</span></div>
+  </a>
+  
+  <div class="nav-right">
+    <span class="admin-badge">Admin</span>
+    <div class="user-menu">
+      <div class="user-avatar">{{admin.initials}}</div>
+      <span style="font-size: 0.875rem; font-weight: 500;">{{admin.name}}</span>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid px-3 py-3" style="max-width:1400px">
+
+  <!-- ── Page Header ── -->
+  <div class="page-header">
+    <div class="breadcrumb-nav">
+      <a href="{{ url_for('admin_bp.dashboard') }}">Admin Dashboard</a>
+      <span>›</span>
+      <span>Team Management</span>
+    </div>
+    <div class="page-title">Team Management</div>
+    <div class="page-subtitle">Manage internal team members, roles, and permissions</div>
+  </div>
+
+  <!-- ── Toolbar ── -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search by name, email, or department...">
+    </div>
+    
+    <div class="filter-group">
+      <select class="filter-select" id="roleFilter">
+        <option value="">All Roles</option>
+        <option value="owner">Owner</option>
+        <option value="admin">Admin</option>
+        <option value="manager">Manager</option>
+        <option value="member">Member</option>
+      </select>
+      
+      <select class="filter-select" id="departmentFilter">
+        <option value="">All Departments</option>
+        <option value="engineering">Engineering</option>
+        <option value="product">Product</option>
+        <option value="sales">Sales</option>
+        <option value="marketing">Marketing</option>
+        <option value="hr">HR</option>
+        <option value="finance">Finance</option>
+      </select>
+
+      <select class="filter-select" id="statusFilter">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="pending">Pending</option>
+      </select>
+      
+      <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+        ➕ Add Team Member
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Team Table ── -->
+  <div class="team-grid">
+    <table class="team-table">
+      <thead>
+        <tr>
+          <th>Team Member</th>
+          <th>Department</th>
+          <th>Role</th>
+          <th>Permissions</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="teamTableBody">
+        {% for member in team_members %}
+        <tr data-role="{{member.role}}" data-dept="{{member.department}}" data-status="{{member.status}}">
+          <td>
+            <div class="member-info">
+              <div class="member-avatar" style="background: {{member.avatar_color}}">{{member.initials}}</div>
+              <div>
+                <div class="member-name">{{member.name}}</div>
+                <div class="member-email">{{member.email}}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{member.department}}</td>
+          <td>
+            <span class="role-badge role-{{member.role}}">{{member.role_display}}</span>
+          </td>
+          <td>
+            <div class="permission-tags">
+              {% for perm in member.permissions[:3] %}
+              <span class="permission-tag">{{perm}}</span>
+              {% endfor %}
+              {% if member.permissions|length > 3 %}
+              <span class="permission-tag">+{{member.permissions|length - 3}} more</span>
+              {% endif %}
+            </div>
+          </td>
+          <td>
+            <span class="status-badge status-{{member.status}}">{{member.status_display}}</span>
+          </td>
+          <td style="font-size: 0.75rem; color: var(--gray-400);">{{member.joined_date}}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-icon" title="View Details" onclick="viewMember('{{member.id}}')">👁️</button>
+              <button class="btn-icon" title="Edit" onclick="editMember('{{member.id}}')">✏️</button>
+              <button class="btn-icon danger" title="Remove" onclick="removeMember('{{member.id}}')">🗑️</button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ── Add Team Member Modal ── -->
+<div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Team Member</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addMemberForm">
+          
+          <!-- Tab Navigation -->
+          <div class="tab-nav">
+            <div class="tab-link active" onclick="switchTab('basic')">Basic Information</div>
+            <div class="tab-link" onclick="switchTab('onboarding')">Onboarding Details</div>
+            <div class="tab-link" onclick="switchTab('permissions')">Role & Permissions</div>
+          </div>
+
+          <!-- Tab 1: Basic Information -->
+          <div class="tab-content active" id="tab-basic">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Full Name *</label>
+                  <input type="text" class="form-control" name="name" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Email Address *</label>
+                  <input type="email" class="form-control" name="email" required>
+                  <div class="form-help">Login credentials will be sent to this email</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Phone Number *</label>
+                  <input type="tel" class="form-control" name="phone" required placeholder="+91 9876543210">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Employee ID *</label>
+                  <input type="text" class="form-control" name="employee_id" required placeholder="EMP001">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Department *</label>
+                  <select class="form-control" name="department" required>
+                    <option value="">Select Department</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="product">Product</option>
+                    <option value="sales">Sales</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="hr">HR</option>
+                    <option value="finance">Finance</option>
+                    <option value="operations">Operations</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Designation *</label>
+                  <input type="text" class="form-control" name="designation" required placeholder="Software Engineer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Onboarding Details -->
+          <div class="tab-content" id="tab-onboarding">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Date of Joining *</label>
+                  <input type="date" class="form-control" name="doj" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Date of Birth</label>
+                  <input type="date" class="form-control" name="dob">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">PAN Number</label>
+                  <input type="text" class="form-control" name="pan" placeholder="ABCDE1234F" maxlength="10" style="text-transform: uppercase;">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Aadhaar Number</label>
+                  <input type="text" class="form-control" name="aadhaar" placeholder="1234 5678 9012" maxlength="14">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-label">Current Address</label>
+                  <textarea class="form-control" name="address" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Emergency Contact Name</label>
+                  <input type="text" class="form-control" name="emergency_name">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Emergency Contact Phone</label>
+                  <input type="tel" class="form-control" name="emergency_phone">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Bank Account Number</label>
+                  <input type="text" class="form-control" name="bank_account">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Bank IFSC Code</label>
+                  <input type="text" class="form-control" name="bank_ifsc" style="text-transform: uppercase;">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-label">Upload Documents</label>
+                  <input type="file" class="form-control" name="documents" multiple accept=".pdf,.jpg,.png">
+                  <div class="form-help">Upload PAN, Aadhaar, certificates, etc. (Max 10MB each)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Role & Permissions -->
+          <div class="tab-content" id="tab-permissions">
+            <div class="form-group">
+              <label class="form-label">System Role *</label>
+              <select class="form-control" name="role" required id="roleSelect">
+                <option value="">Select Role</option>
+                <option value="owner">Owner - Full system access</option>
+                <option value="admin">Admin - Manage all clients and settings</option>
+                <option value="manager">Manager - Manage assigned clients</option>
+                <option value="member">Member - View and support only</option>
+              </select>
+            </div>
+
+            <div class="onboarding-title" style="margin-top: 1.5rem; margin-bottom: 1rem;">Granular Permissions</div>
+            
+            <div class="permissions-grid">
+              <!-- Client Management -->
+              <div class="permission-group">
+                <div class="permission-group-title">📋 Client Management</div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_clients" id="perm_view_clients">
+                  <label for="perm_view_clients">View Clients</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_add_clients" id="perm_add_clients">
+                  <label for="perm_add_clients">Add Clients</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_edit_clients" id="perm_edit_clients">
+                  <label for="perm_edit_clients">Edit Clients</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_delete_clients" id="perm_delete_clients">
+                  <label for="perm_delete_clients">Delete Clients</label>
+                </div>
+              </div>
+
+              <!-- Employee Data -->
+              <div class="permission-group">
+                <div class="permission-group-title">👥 Employee Data</div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_employees" id="perm_view_employees">
+                  <label for="perm_view_employees">View Employees</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_export_data" id="perm_export_data">
+                  <label for="perm_export_data">Export Data</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_pii" id="perm_view_pii">
+                  <label for="perm_view_pii">View PII (PAN/Aadhaar)</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_salary" id="perm_view_salary">
+                  <label for="perm_view_salary">View Salary Data</label>
+                </div>
+              </div>
+
+              <!-- Billing & Finance -->
+              <div class="permission-group">
+                <div class="permission-group-title">💰 Billing & Finance</div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_billing" id="perm_view_billing">
+                  <label for="perm_view_billing">View Billing</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_manage_billing" id="perm_manage_billing">
+                  <label for="perm_manage_billing">Manage Billing</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_revenue" id="perm_view_revenue">
+                  <label for="perm_view_revenue">View Revenue Data</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_generate_invoices" id="perm_generate_invoices">
+                  <label for="perm_generate_invoices">Generate Invoices</label>
+                </div>
+              </div>
+
+              <!-- Analytics & Reports -->
+              <div class="permission-group">
+                <div class="permission-group-title">📊 Analytics & Reports</div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_analytics" id="perm_view_analytics">
+                  <label for="perm_view_analytics">View Analytics</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_export_reports" id="perm_export_reports">
+                  <label for="perm_export_reports">Export Reports</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_custom_reports" id="perm_custom_reports">
+                  <label for="perm_custom_reports">Create Custom Reports</label>
+                </div>
+              </div>
+
+              <!-- System Settings -->
+              <div class="permission-group">
+                <div class="permission-group-title">⚙️ System Settings</div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_manage_team" id="perm_manage_team">
+                  <label for="perm_manage_team">Manage Team</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_system_settings" id="perm_system_settings">
+                  <label for="perm_system_settings">System Settings</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_api_access" id="perm_api_access">
+                  <label for="perm_api_access">API Access</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_audit_logs" id="perm_audit_logs">
+                  <label for="perm_audit_logs">View Audit Logs</label>
+                </div>
+              </div>
+
+              <!-- Support -->
+              <div class="permission-group">
+                <div class="permission-group-title">🎧 Support</div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_view_tickets" id="perm_view_tickets">
+                  <label for="perm_view_tickets">View Tickets</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_respond_tickets" id="perm_respond_tickets">
+                  <label for="perm_respond_tickets">Respond to Tickets</label>
+                </div>
+                <div class="permission-item">
+                  <input type="checkbox" name="perm_close_tickets" id="perm_close_tickets">
+                  <label for="perm_close_tickets">Close Tickets</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 justify-content-end mt-4 pt-3" style="border-top: 1px solid var(--border);">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: var(--gray-50); color: var(--gray-800); padding: 0.65rem 1.25rem; border-radius: 10px; font-weight: 600; border: none;">Cancel</button>
+            <button type="submit" class="btn-primary">Add Team Member</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── View Member Modal ── -->
+<div class="modal fade" id="viewMemberModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Team Member Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="memberDetailsContent">
+        <!-- Content will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+// Search functionality
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  const searchTerm = e.target.value.toLowerCase();
+  const rows = document.querySelectorAll('#teamTableBody tr');
+  
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(searchTerm) ? '' : 'none';
+  });
+});
+
+// Filter functionality
+document.getElementById('roleFilter').addEventListener('change', filterTable);
+document.getElementById('departmentFilter').addEventListener('change', filterTable);
+document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+function filterTable() {
+  const roleFilter = document.getElementById('roleFilter').value;
+  const deptFilter = document.getElementById('departmentFilter').value;
+  const statusFilter = document.getElementById('statusFilter').value;
+  const rows = document.querySelectorAll('#teamTableBody tr');
+  
+  rows.forEach(row => {
+    const role = row.getAttribute('data-role');
+    const dept = row.getAttribute('data-dept');
+    const status = row.getAttribute('data-status');
+    
+    const roleMatch = !roleFilter || role === roleFilter;
+    const deptMatch = !deptFilter || dept === deptFilter;
+    const statusMatch = !statusFilter || status === statusFilter;
+    
+    row.style.display = (roleMatch && deptMatch && statusMatch) ? '' : 'none';
+  });
+}
+
+// Role-based permission presets
+document.getElementById('roleSelect').addEventListener('change', function(e) {
+  const role = e.target.value;
+  const allPerms = document.querySelectorAll('[name^="perm_"]');
+  
+  // Reset all
+  allPerms.forEach(perm => perm.checked = false);
+  
+  // Preset based on role
+  if (role === 'owner') {
+    allPerms.forEach(perm => perm.checked = true);
+  } else if (role === 'admin') {
+    const adminPerms = ['perm_view_clients', 'perm_add_clients', 'perm_edit_clients', 
+                        'perm_view_employees', 'perm_export_data', 'perm_view_billing', 
+                        'perm_view_analytics', 'perm_export_reports', 'perm_manage_team',
+                        'perm_view_tickets', 'perm_respond_tickets', 'perm_close_tickets'];
+    adminPerms.forEach(id => {
+      const elem = document.getElementById(id);
+      if (elem) elem.checked = true;
+    });
+  } else if (role === 'manager') {
+    const managerPerms = ['perm_view_clients', 'perm_view_employees', 'perm_view_billing',
+                          'perm_view_analytics', 'perm_view_tickets', 'perm_respond_tickets'];
+    managerPerms.forEach(id => {
+      const elem = document.getElementById(id);
+      if (elem) elem.checked = true;
+    });
+  } else if (role === 'member') {
+    const memberPerms = ['perm_view_clients', 'perm_view_tickets'];
+    memberPerms.forEach(id => {
+      const elem = document.getElementById(id);
+      if (elem) elem.checked = true;
+    });
+  }
+});
+
+// Form submission
+document.getElementById('addMemberForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  
+  // Collect permissions
+  const permissions = [];
+  document.querySelectorAll('[name^="perm_"]:checked').forEach(checkbox => {
+    permissions.push(checkbox.name.replace('perm_', ''));
+  });
+  
+  const data = Object.fromEntries(formData.entries());
+  data.permissions = permissions;
+  
+  try {
+    const response = await fetch('/api/admin/team/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    
+    const result = await response.json();
+    
+    if (response.ok) {
+      alert('✅ Team member added successfully!');
+      location.reload();
+    } else {
+      alert('❌ Error: ' + result.message);
+    }
+  } catch (error) {
+    alert('❌ Failed to add team member. Please try again.');
+  }
+});
+
+async function viewMember(id) {
+  try {
+    const response = await fetch(`/api/admin/team/${id}`);
+    const member = await response.json();
+    
+    const content = `
+      <div class="onboarding-card">
+        <div class="onboarding-title">Basic Information</div>
+        <div class="info-row">
+          <div class="info-label">Full Name</div>
+          <div class="info-value">${member.name}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Email</div>
+          <div class="info-value">${member.email}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Phone</div>
+          <div class="info-value">${member.phone}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Employee ID</div>
+          <div class="info-value">${member.employee_id}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Department</div>
+          <div class="info-value">${member.department}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Designation</div>
+          <div class="info-value">${member.designation}</div>
+        </div>
+      </div>
+
+      <div class="onboarding-card">
+        <div class="onboarding-title">Onboarding Details</div>
+        <div class="info-row">
+          <div class="info-label">Date of Joining</div>
+          <div class="info-value">${member.doj || 'N/A'}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Date of Birth</div>
+          <div class="info-value">${member.dob || 'N/A'}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">PAN Number</div>
+          <div class="info-value">${member.pan || 'N/A'}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Aadhaar Number</div>
+          <div class="info-value">${member.aadhaar || 'N/A'}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Current Address</div>
+          <div class="info-value">${member.address || 'N/A'}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Emergency Contact</div>
+          <div class="info-value">${member.emergency_name || 'N/A'} - ${member.emergency_phone || 'N/A'}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Bank Details</div>
+          <div class="info-value">${member.bank_account || 'N/A'} (${member.bank_ifsc || 'N/A'})</div>
+        </div>
+      </div>
+
+      <div class="onboarding-card">
+        <div class="onboarding-title">Role & Permissions</div>
+        <div class="info-row">
+          <div class="info-label">System Role</div>
+          <div class="info-value"><span class="role-badge role-${member.role}">${member.role_display}</span></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Permissions</div>
+          <div class="info-value">
+            <div class="permission-tags">
+              ${member.permissions.map(p => `<span class="permission-tag">${p}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="onboarding-card">
+        <div class="onboarding-title">Documents</div>
+        ${member.documents && member.documents.length > 0 ? 
+          member.documents.map(doc => `
+            <div class="info-row">
+              <div class="info-label">${doc.type}</div>
+              <div class="info-value">
+                <a href="${doc.url}" class="document-link" target="_blank">
+                  📄 ${doc.filename}
+                </a>
+              </div>
+            </div>
+          `).join('') 
+          : '<div style="color: var(--gray-400); font-size: 0.875rem;">No documents uploaded</div>'}
+      </div>
+    `;
+    
+    document.getElementById('memberDetailsContent').innerHTML = content;
+    new bootstrap.Modal(document.getElementById('viewMemberModal')).show();
+  } catch (error) {
+    alert('Failed to load member details');
+  }
+}
+
+function editMember(id) {
+  window.location.href = `/admin/team/${id}/edit`;
+}
+
+function removeMember(id) {
+  if (confirm('Are you sure you want to remove this team member? This action cannot be undone.')) {
+    fetch(`/api/admin/team/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        location.reload();
+      })
+      .catch(err => alert('Failed to remove team member'));
+  }
+}
+</script>
+
+</body>
+</html>

@@ -661,7 +661,7 @@
   <!-- ── Client Grid ── -->
   <div class="client-grid" id="clientGrid">
     {% for client in clients %}
-    <a href="{{ url_for('company_bp.dashboard', company_id=client.id) }}" class="client-card" data-plan="{{client.plan_type}}" data-status="{{client.status}}">
+    <a href="{{ url_for('admin_employee_bp.dashboard', company_id=client.id) }}" class="client-card" data-plan="{{client.plan_type}}" data-status="{{client.status}}">
       <div class="client-header">
         <div class="client-info">
           <div class="client-logo">{{client.logo_initials}}</div>

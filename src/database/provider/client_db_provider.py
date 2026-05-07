@@ -14,7 +14,7 @@ class ClientDBProvider():
     def __init__(self):
         self.mongodb_client = MongoDBClient()
         self.password_helper = PasswordHelper()
-        self.db_name = str(os.getenv("CLIENT_DB_NAME"))
+        self.db_name = str(os.getenv("DB_NAME"))
         self.client_onboarding_collection = str(os.getenv("CLIENT_ONBOARDING_COLLECTION"))
         self.client_count = self.mongodb_client.count_all_records_from_collection(self.db_name, self.client_onboarding_collection)
         self.current_dt = get_current_dt_in_milliseconds_precision()
@@ -23,6 +23,11 @@ class ClientDBProvider():
     def fetch_client_list_from_database(self):
         client_list = self.mongodb_client.fetch_all_records_from_collection(self.db_name, self.client_onboarding_collection)
         return client_list
+    
+    def fetch_single_client_from_database(self, client_id):
+        filter_items = {'client_id': client_id}
+        client_data = self.mongodb_client.find_one_item_from_collection(self.db_name, self.client_onboarding_collection, filter_items)
+        return client_data
     
     def add_new_client_in_database(self, request, employee_id):
         client_count = self.mongodb_client.count_all_records_from_collection(self.db_name, self.client_onboarding_collection)
@@ -64,8 +69,8 @@ class ClientDBProvider():
                 next_billing_date= self.current_dt,
             ),
             client_emp_info = ClientEmpInfo(
-                total_employees=data.get('billing_cycle', None),
-                active_employees=data.get('billing_cycle', None)
+                total_employees=data.get('employee_count', None),
+                active_employees=data.get('employee_count', None)
             ),
             client_active_status= ActiveStatus(
                     is_approved= False,
@@ -94,7 +99,50 @@ class ClientDBProvider():
                                                         update_login_data.model_dump())
             
     def delete_client_from_database(self, target_id):
-        filter_id = {'client_id': ta}
-        self.mongodb_client.delete_one_item_from_collection()
+        filter_id = {'client_id': target_id}
+        self.mongodb_client.delete_one_item_from_collection(database_name="",
+                                                            collection_name="",
+                                                            filter_items=filter_id)
+    
+    def update_client_in_database(self, target_id, request, employee_id):
+        data = request.get_json()
+        current_dt = get_current_dt_in_milliseconds_precision()
+        if data and target_id:
+            update_data = {
+                "client_onboarding": {
+                    "legal_name": data.get("legal_name", None),
+                    "short_name": data.get("short_name", None),
+                    "pan": data.get("pan", None),
+                    "gstin": data.get("gstin", None),
+                    "address": data.get("address", None),
+                    "city": data.get("city", None),
+                    "state": data.get("state", None),
+                    "pincode": data.get("pincode", None),
+                    "industry": data.get("industry", None),
+                    "notes": data.get("notes", None),
+                    "send_welcome_note": data.get("send_welcome_note", None),
+                    "client_added_by": employee_id,
+                },
+                "client_super_admin_info": {
+                    "admin_name": data.get('admin_name', None),
+                    "admin_email": data.get('admin_email', None),
+                    "admin_phone": data.get('admin_phone', None),
+                    "admin_designation": data.get('admin_designation', None),
+                    "admin_department": data.get('admin_department', None),
+                },
+                "client_billing_info": {
+                    "plan": data.get('plan', None),
+                    "billing_cycle": data.get('billing_cycle', None),
+                },
+                "client_emp_info": {
+                    "total_employees": data.get('employee_count', None),
+                    "active_employees": data.get('employee_count', None)
+                },
+                "updatedAt": current_dt
+            }
+            
+            filter_id = {'client_id': target_id}
+            self.mongodb_client.update_one_item_in_collection(self.db_name, self.client_onboarding_collection, filter_id, update_data)
+        print("Item deleted successfully")
             
         

@@ -62,8 +62,7 @@ class ActiveStatus(BaseModel):
     last_active_datetime: Optional[datetime] = None
     
 class ClientInfo(BaseModel):
-    client_id: Optional[str] = None 
-    employee_id: Optional[str] = None
+    client_id: Optional[str] = None
     client_onboarding: Optional[ClientOnboarding] = None
     client_super_admin_info: Optional[ClientSuperAdminInfo] = None
     client_billing_info: Optional[ClientBillingInfo] = None

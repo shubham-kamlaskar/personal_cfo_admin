@@ -529,24 +529,21 @@
     <tr>
       <td>{{ loop.index }}</td> 
       <td>{{ ca.client_id }}</td>
-      <td>{{ ca.legal_name }}</td>
-      <td>{{ ca.city }}</td>
-      <td>{{ ca.employee_count }}</td>
-      <td>{{ ca.billing_cycle }}</td>
-      <td>{{ ca.status }}</td>
-      
+      <td>{{ ca.client_onboarding.legal_name }}</td>
+      <td>{{ ca.client_onboarding.city }}</td>
+      <td>{{ ca.client_emp_info.total_employees }}</td>
+      <td>{{ ca.client_billing_info.billing_cycle }}</td>
+      <td>{{ ca.client_active_status.is_active }}</td>
+      <td><span class="badge bg-info">{{ ca.client_billing_info.plan }}</span></td>
       <td>
-        <span class="badge bg-info">{{ ca.plan }}</span>
-      </td>
-      <td>
-  <a href="{{ url_for('admin_client_bp.remove_client', client_id=client_id, employee_id=employee_id, taget_id=ca.client_id) }}" class="text-danger" onclick="return confirm('Are you sure you want to delete this client?');">
-    <span class="material-symbols-outlined">delete</span>
-  </a>
+        <a href="{{ url_for('admin_client_bp.remove_client', client_id=client_id, employee_id=employee_id) }}?target_id={{ ca.client_id }}&confirm=yes" class="text-danger" onclick="return confirm('Are you sure you want to delete this client?');">
+          <span class="material-symbols-outlined">delete</span>
+        </a>
 
-  <a href="{{ url_for('admin_client_bp.remove_client', client_id=client_id, employee_id=employee_id) }}" class="text-primary ms-2">
-    <span class="material-symbols-outlined">edit</span>
-  </a>
-</td>
+        <a href="{{ url_for('admin_client_bp.modify_client', client_id=client_id, employee_id=employee_id) }}?target_id={{ ca.client_id }}" class="text-primary ms-2">
+          <span class="material-symbols-outlined">edit</span>
+        </a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
@@ -580,16 +577,16 @@ document.getElementById('profileForm').addEventListener('submit', async function
   const data = Object.fromEntries(formData.entries());
   
   try {
-    const response = await fetch('/api/User/profile/update', {
+    const response = await fetch(`/${client_id}/${employee_id}/admin/client/remove`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     
     if (response.ok) {
-      alert('✅ Profile updated successfully!');
+      alert('✅ Client deleted successfully!');
     } else {
-      alert('❌ Failed to update profile');
+      alert('❌ Failed to delete client');
     }
   } catch (error) {
     alert('❌ Error updating profile');

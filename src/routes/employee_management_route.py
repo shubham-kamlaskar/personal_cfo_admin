@@ -10,7 +10,7 @@ admin_employee_bp = Blueprint('admin_employee_bp', __name__, template_folder='te
 
 @admin_employee_bp.route("/<client_id>/<employee_id>/admin/employee/add", methods=["GET"])
 def employee_add(client_id: str, employee_id: str):
-    return render_template("admin/employee/admin_user_management.html", client_id=client_id, employee_id=employee_id)
+    return render_template("admin/employee/admin_employee_onboarding.html", client_id=client_id, employee_id=employee_id)
 
 @admin_employee_bp.route("/<client_id>/<employee_id>/admin/employee/add/confirm", methods=["POST"])
 def confirm_employee_add(client_id: str, employee_id: str):

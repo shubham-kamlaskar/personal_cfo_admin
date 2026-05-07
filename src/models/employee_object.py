@@ -11,7 +11,7 @@ class LoginObject(BaseModel):
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
 
-class InternalEmployeeInfo(BaseModel):
+class EmployeeOnboarding(BaseModel):
     client_id: Optional[str] = None
     employee_id: Optional[str] = None
     employee_name: Optional[str] = None

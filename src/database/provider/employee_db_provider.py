@@ -5,7 +5,7 @@ from src.database.service.mongo_client import MongoDBClient
 from src.util.datetime_helper import get_current_dt_in_milliseconds_precision
 from src.util.generate_id import generate_client_id
 from src.util.password_helper import PasswordHelper
-from src.models.employee_object import InternalEmployeeInfo
+from src.models.employee_object import EmployeeOnboarding
 from src.models.authentication_object import LoginObject
 
 load_dotenv()
@@ -14,7 +14,7 @@ class EmployeeDBProvider():
     def __init__(self):
         self.mongodb_client = MongoDBClient()
         self.password_helper = PasswordHelper()
-        self.db_name = str(os.getenv("CLIENT_DB_NAME"))
+        self.db_name = str(os.getenv("DB_NAME"))
         self.employee_collection = str(os.getenv("EMPLOYEE_COLLECTION"))
         self.client_count = self.mongodb_client.count_all_records_from_collection(self.db_name, self.employee_collection)
         self.current_dt = get_current_dt_in_milliseconds_precision()
@@ -29,7 +29,7 @@ class EmployeeDBProvider():
         employee_id= "EMP-" + "2600" + str(generate_client_id(emp_count))
         data = request.get_json()
         if data:
-            update_data = InternalEmployeeInfo(
+            update_data = EmployeeOnboarding(
             client_id=client_id,
             employee_id= employee_id,
             employee_name= data.get('legal_name', None),
