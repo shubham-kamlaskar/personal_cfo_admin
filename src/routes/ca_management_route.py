@@ -53,7 +53,7 @@ def remove_ca(client_id: str, employee_id: str):
 def modify_ca(client_id: str, employee_id: str):
     target_id = request.args.get('target_id')
     if target_id:
-        ca_data = ca_db_provider.fetch_single_client_from_database(target_id)
+        ca_data = ca_db_provider.fetch_single_ca_from_database(target_id)
         return render_template("admin/ca/admin_add_ca.html", client_id=client_id, employee_id=employee_id, target_id=target_id, ca=ca_data)
     return render_template("admin/ca/admin_add_ca.html", client_id=client_id, employee_id=employee_id)
 

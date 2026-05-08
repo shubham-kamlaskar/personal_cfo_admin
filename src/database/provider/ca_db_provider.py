@@ -211,7 +211,7 @@ class CADBProvider():
                                                             collection_name=self.ca_collection,
                                                             filter_items=filter_id)
         
-    def fetch_single_client_from_database(self, employee_id):
+    def fetch_single_ca_from_database(self, employee_id):
         filter_items = {'employee_id': employee_id}
         client_data = self.mongodb_client.find_one_item_from_collection(self.db_name, self.ca_collection, filter_items)
         return client_data

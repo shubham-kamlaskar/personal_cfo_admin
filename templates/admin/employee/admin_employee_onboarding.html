@@ -994,12 +994,14 @@
       </div>
     </div>
   </div>
-
+</form>
 </div>
 
 <script>
-    const client_id = "{{ client_id }}"
-    const employee_id = "{{ employee_id }}"
+  const client_id = "{{client_id}}"
+  const employee_id = "{{employee_id}}"
+  const target_id = "{{target_id}}"
+  
 let currentStep = 1;
 const totalSteps = 5;
 let excelData = [];
@@ -1376,6 +1378,34 @@ async function submitBulkData() {
     alert('❌ Failed to import employees. Please try again.');
   }
 }
+
+document.getElementById('onboardingForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+  
+  const url = `/${client_id}/${employee_id}/admin/employee/add/confirm${target_id ? `?target_id=${target_id}` : ''}`;
+  
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    
+    const result = await response.json();
+    
+    if (response.ok) {
+      alert(`✅ Client ${target_id ? 'updated' : 'created'} successfully!`);
+      window.location.href = `/${client_id}/${employee_id}/admin/employee/list`;
+    } else {
+      alert('❌ Error: ' + result.message);
+    }
+  } catch (error) {
+    alert(`❌ Failed to ${target_id ? 'update' : 'create'} employee. Please try again.`);
+  }
+});
 
 showStep(1);
 </script>
